@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#08080a" />
+<title>你的精神状态还能撑到第几级？｜趣味自测</title>
+<meta name="description" content="10 个真实瞬间，测出你的精神状态等级。结果生成一张带人像的卡片，可保存分享。" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#08080a;--ink:#f4f4f7;--dim:rgba(244,244,247,.52);--line:rgba(255,255,255,.10);
+  --accent:#b06bff;--acid:#a8ff3c;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;overflow-x:hidden}
+.scan{position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.016) 0 1px,transparent 1px 3px);pointer-events:none;z-index:0}
+.app{max-width:480px;margin:0 auto;padding:24px 20px 44px;min-height:100vh;display:flex;flex-direction:column;position:relative;z-index:1}
+.glow{position:fixed;top:-200px;right:-140px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(176,107,255,.16),rgba(176,107,255,0) 68%);pointer-events:none;z-index:0}
+.glow2{position:fixed;bottom:-220px;left:-160px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(168,255,60,.09),rgba(168,255,60,0) 70%);pointer-events:none;z-index:0}
+.top{position:relative;z-index:1;display:flex;align-items:baseline;gap:10px;padding-bottom:8px}
+.brand{font-size:15px;font-weight:800;letter-spacing:.5px}
+.brand-sub{font-size:11px;color:var(--dim);letter-spacing:1px}
+.screen{position:relative;z-index:1;animation:in .34s cubic-bezier(.2,.7,.3,1) both;flex:1;display:flex;flex-direction:column}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.tagline{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:2px;color:var(--accent);border:1px solid rgba(176,107,255,.30);background:rgba(176,107,255,.07);padding:7px 12px;border-radius:99px;align-self:flex-start;margin-top:26px}
+h1{font-size:33px;line-height:1.32;font-weight:800;letter-spacing:-.5px;margin:16px 0 14px}
+h1 em{font-style:normal;color:var(--acid)}
+.lead{font-size:15px;line-height:1.75;color:rgba(244,244,247,.72)}
+.metas{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 4px}
+.meta{font-size:12px;color:var(--dim);border:1px solid var(--line);padding:8px 12px;border-radius:10px}
+.spacer{flex:1}
+.steps{margin-top:28px;display:flex;flex-direction:column;gap:15px}
+.st{border-left:2px solid rgba(255,255,255,.16);padding-left:14px;display:flex;gap:10px;align-items:baseline}
+.st b{font-size:10px;letter-spacing:1.5px;color:var(--accent);font-weight:800;flex:none}
+.st span{font-size:13px;color:rgba(244,244,247,.62);line-height:1.5}
+.foot{font-size:11px;line-height:1.7;color:rgba(244,244,247,.34);margin-top:22px}
+.bar{height:3px;background:rgba(255,255,255,.09);border-radius:99px;overflow:hidden;margin-top:18px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--acid));border-radius:99px;transition:width .4s cubic-bezier(.3,.8,.2,1)}
+.qtop{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:1px;color:var(--dim);margin-top:16px}
+.qtop b{color:var(--accent);font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.qi{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;background:rgba(176,107,255,.10);border:1px solid rgba(176,107,255,.26);margin:20px 0 16px}
+.q{font-size:21px;line-height:1.58;font-weight:650;margin:0 0 20px;letter-spacing:-.2px}
+.opts{display:flex;flex-direction:column;gap:11px}
+.opt{position:relative;display:flex;align-items:flex-start;gap:12px;text-align:left;padding:16px 17px 16px 20px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.028);color:var(--ink);font-size:15.5px;line-height:1.5;font-family:inherit;transition:all .18s ease;cursor:pointer;overflow:hidden}
+.opt:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background .18s}
+.opt em{font-style:normal;font-size:12px;font-weight:800;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:3px 7px;flex:none;margin-top:1px}
+.opt:active{transform:scale(.985)}
+.opt.sel{border-color:rgba(176,107,255,.62);background:rgba(176,107,255,.11)}
+.opt.sel em{color:var(--accent);border-color:rgba(176,107,255,.5)}
+.opt.sel:before{background:var(--acid)}
+.back{background:none;border:0;color:var(--dim);font-size:13px;font-family:inherit;padding:16px 0;cursor:pointer;text-align:left}
+.card{border-radius:24px;padding:24px 22px 22px;position:relative;overflow:hidden;box-shadow:0 24px 60px -30px rgba(0,0,0,.9);border:1px solid rgba(255,255,255,.11)}
+.card:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 120%,rgba(255,255,255,.05),transparent 55%);pointer-events:none}
+.cardh{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.33);font-weight:700;position:relative;z-index:1}
+.ladder{display:flex;gap:5px;margin:14px 0 18px;position:relative;z-index:1}
+.ladder i{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.10);transition:background .5s}
+.ladder i.on{background:currentColor;box-shadow:0 0 12px currentColor}
+.lvrow{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.lvtag{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--accent);border:1px solid rgba(176,107,255,.4);background:rgba(176,107,255,.10);padding:5px 10px;border-radius:7px;flex:none}
+.big{font-size:40px;font-weight:800;line-height:1;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}
+.avwrap{display:flex;justify-content:center;margin:6px 0 -6px;position:relative;z-index:1}
+.avwrap canvas{display:block}
+.name{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.3;margin-top:12px;position:relative;z-index:1}
+.quote{font-size:15px;line-height:1.72;color:rgba(244,244,247,.72);margin-top:10px;position:relative;z-index:1}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px;position:relative;z-index:1}
+.tag{font-size:11px;padding:6px 11px;border-radius:99px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:var(--accent);letter-spacing:.5px}
+.sec{font-size:10px;letter-spacing:2.5px;color:rgba(255,255,255,.3);font-weight:700;margin:24px 0 12px;position:relative;z-index:1}
+.li{display:flex;gap:10px;font-size:14.5px;line-height:1.68;color:rgba(244,244,247,.8);margin-bottom:11px;position:relative;z-index:1}
+.li i{font-style:normal;color:var(--acid);font-weight:800;font-size:12px;flex:none;margin-top:3px}
+.note{border-left:2px solid currentColor;padding:12px 0 12px 14px;font-size:14px;line-height:1.72;color:rgba(244,244,247,.86);position:relative;z-index:1}
+.note b{color:var(--accent);font-weight:700}
+.btn{width:100%;padding:16px;border-radius:15px;border:0;background:var(--accent);color:#0a0a0a;font-size:15.5px;font-weight:750;font-family:inherit;margin-top:11px;cursor:pointer;transition:transform .15s}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.ov{position:fixed;inset:0;background:rgba(3,3,6,.9);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:22px;z-index:99}
+.ov.on{display:flex}
+.ovbox{max-width:360px;width:100%;text-align:center}
+.ovbox img{width:100%;border-radius:18px;box-shadow:0 30px 80px -20px #000}
+.ovbox p{font-size:12.5px;color:var(--dim);margin:14px 0 2px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="scan"></div>
+<div class="glow"></div>
+<div class="glow2"></div>
+<div class="app">
+  <div class="top"><span class="brand" id="brand">测试小馆</span><span class="brand-sub" id="brandSub">3 分钟，看见另一个自己</span></div>
+  <div id="screen" class="screen"></div>
+</div>
+<div class="ov" id="ov"><div class="ovbox"><img id="ovimg" alt="结果分享卡" /><p>长按图片保存到相册，或右键另存<br/>也可以直接截图这一页</p><button class="btn ghost" onclick="closeOv()">关闭</button></div></div>
+<script>
+var CFG = {
+  slug: 'mental-state',
+  accent: '#b06bff',
+  no: 'NO.05',
+  en: 'MENTAL STATE',
+  title: '你的精神状态<br/>还能撑到<em>第几级</em>？',
+  lead: '不是抑郁量表，也不是心理诊断。<br/>就是看看你最近，被生活磨到哪一层了。',
+  meta: ['18 个瞬间', '约 4 分钟', '5 个等级'],
+  unit: '抽象浓度',
+  brand: { name: '测试小馆', slogan: '3 分钟，看见另一个自己' },
+  qs: [
+    ['⏰', '早上闹钟响到第五遍，你——', [['爬起来，虽然人不算太清醒', 1], ['关掉再躺五分钟，然后准时起', 2], ['一边骂一边起，嘴里念念有词', 3], ['已经放弃这节课了，翻个身继续睡', 4]]],
+    ['📩', '群里突然 @全体 说 2 小时后交材料，你——', [['马上开始弄，弄完再干别的', 1], ['心里一紧，先列个清单', 2], ['先在群里回个「收到」，然后拖到最后一小时', 3], ['盯着屏幕看了三分钟，什么也没做', 4]]],
+    ['🍚', '在食堂排到窗口，发现没带饭卡——', [['跟后面的人借一下，很正常', 1], ['默默退出队伍，回宿舍点外卖', 2], ['站在原地笑了一下，觉得挺好笑的', 3], ['突然就不饿了，直接回宿舍躺着', 4]]],
+    ['🎧', '室友快十二点还在开麦打游戏——', [['说一声「小点声」，然后继续睡', 1], ['戴上耳塞，忍了', 2], ['在床上翻来覆去，脑子里把对话演了十遍', 3], ['干脆起来，一起玩到三点', 4]]],
+    ['💻', '期末前一天打开教学平台，还有三个作业没交——', [['熬夜补，能补几个是几个', 1], ['先算哪个占分高，优先补', 2], ['笑出声，然后开始补', 3], ['关机，明天再说', 4]]],
+    ['🏆', '朋友圈刷到同学晒奖学金、晒 offer——', [['点个赞，替他高兴', 1], ['心里咯噔一下，然后关掉', 2], ['截图发给朋友：你看看人家', 3], ['突然觉得自己的专业没救了，开始查转行', 4]]],
+    ['💬', '有人问你「最近怎么样」——', [['还行，挺好的', 1], ['就那样吧，忙着呢', 2], ['好得很，好得快不行了', 3], ['你确定要听吗', 4]]],
+    ['🌙', '凌晨一点你还没睡，因为——', [['刚忙完，准备睡了', 1], ['刷视频，停不下来', 2], ['在思考一个没有答案的问题', 3], ['不知道，就是不想睡', 4]]],
+    ['❓', '老师点名让你回答，你完全没听——', [['站起来老实说没听清', 1], ['猜一个，赌一把', 2], ['说「老师您再说一遍」，拖时间', 3], ['笑一下，全班跟着笑，你自己也不知道在说什么', 4]]],
+    ['⏳', '如果现在给你一整天完全自由，你会——', [['补觉，睡到自然醒', 1], ['出去玩，或者去见朋友', 2], ['什么都不干，躺着刷手机', 3], ['干一件跟平时完全无关的事，比如突然想去爬山', 4]]],
+    ['🛒', '月底看余额，离生活费到账还有六天——', [['算一下，省着花，够用', 1], ['先点一顿想吃的，剩下的再说', 2], ['开始翻外卖软件凑满减，凑得很认真', 3], ['直接放弃计算，反正也不会算对', 4]]],
+    ['🚿', '洗澡洗到一半，突然想起白天说错的一句话——', [['想一下，然后继续洗', 1], ['有点尴尬，甩甩头忘掉', 2], ['反复回放，连对方当时的表情都想起来了', 3], ['站在花洒下不动了，开始重新设计整段对话', 4]]],
+    ['📱', '手机上有 99+ 条未读，一半是群消息——', [['挨个看一眼，重要的回一下', 1], ['全部标已读，眼不见心不烦', 2], ['只点开有自己名字的那几条', 3], ['已经三天没点开过那个红点了', 4]]],
+    ['🧾', '老师甩来 40 页 PDF，说明天课上讨论——', [['晚上抽时间看完', 1], ['先看目录和小标题，抓重点', 2], ['直接搜关键词，能应付就行', 3], ['明天再说，说不定明天不上课', 4]]],
+    ['🛏', '周末室友都出门了，宿舍只剩你一个——', [['正好安静，干点自己的事', 1], ['有点空，打开个视频放着', 2], ['躺着，什么也没干，一天就过去了', 3], ['突然觉得整条楼道都很安静，有点慌', 4]]],
+    ['🍜', '外卖到了，但已经凉了——', [['热一下再吃', 1], ['将就吃，反正也饿', 2], ['吃两口放下，突然没胃口', 3], ['看着它，觉得这件事也挺像自己的', 4]]],
+    ['📞', '家里打电话问「钱够不够花」——', [['够，你们别担心', 1], ['差不多，不够我再想办法', 2], ['够，其实已经吃了一星期泡面', 3], ['突然很想说「不够」，但最后说的是「够」', 4]]],
+    ['🎬', '你最近一次想哭，是因为——', [['一部电影，或者一首歌', 1], ['一件很小的事，比如东西掉了', 2], ['没什么具体原因，就是突然想哭', 3], ['已经想不起来上次是什么时候了', 4]]]
+  ],
+  bands: [
+    { min: 18, max: 29, pct: 8, lv: 1, name: '正常人（伪装中）', color: '#7ee7c7', quote: '我很好，真的，就是有点困。', tags: ['按时交作业', '准时回消息', '很会忍'],
+      feat: ['你每天说得最多的一句话是「没事」，而且说得很自然。', '你的崩溃都发生在没人看见的时候：洗澡时、关灯后。', '你会把事情都做完，只有你自己知道有多勉强。'], good: '你的稳定不是麻木，是你把情绪管得很好。', twist: '你太会「看起来没事」了，所以真的没人来问你有没有事。' },
+    { min: 30, max: 41, pct: 32, lv: 2, name: '轻度抽象', color: '#6fd0ff', quote: '我没事，我只是有点想笑，又有点想哭。', tags: ['表情包库存惊人', '笑点很低', '晚上想很多'],
+      feat: ['你会在深夜突然坐起来，认真思考一个毫无意义的问题。', '你的表情包比存款多，而且用得恰到好处。', '你笑点很低，但笑完会突然安静下来。'], good: '你还留着感知力，这在这个年纪挺珍贵的。', twist: '你不是变抽象了，你是找不到更准确的说法了。' },
+    { min: 42, max: 53, pct: 62, lv: 3, name: '中度发疯', color: '#ff8a3d', quote: '我精神状态很好，好得有点吓人。', tags: ['嘴上不行了', '活全干完了', '作息随机'],
+      feat: ['你会在群里发一句莫名其妙的话，然后自己笑半天。', '你的作息已经不叫作息了，叫随机事件。', '你一边说「我不行了」，一边把所有事干完。'], good: '你的「疯」是一种自我保护，它让你还能继续往前走。', twist: '你不是真的快乐，你是学会了用玩笑盖住累。' },
+    { min: 54, max: 63, pct: 86, lv: 4, name: '重度抽象', color: '#ff4d6d', quote: '别问我怎么了，我自己也不知道。', tags: ['情绪断线', '睡不完整', '硬接回来'],
+      feat: ['你会在很平常的瞬间突然掉下去，比如走到食堂门口。', '你已经很久没有完整睡过一觉了。', '你和人说话时会突然断线，然后硬把自己接回来。'], good: '你还撑着，这本身就已经很厉害了。', twist: '你需要的不是「想开点」，是有人替你扛一会儿。' },
+    { min: 64, max: 72, pct: 99, lv: 5, name: '已进入第四维度', color: '#a8ff3c', quote: '我已经不在这个维度了，你们聊。', tags: ['没力气', '看很久', '自己都信了'],
+      feat: ['你对很多事没什么反应了，不是冷淡，是没力气。', '你会盯着一个东西看很久，脑子里什么都没想。', '「我没事」已经说成口头禅，说得自己都信了。'], good: '能走到这一级还在正常上课吃饭，你比你以为的能扛。', twist: '这次别自己扛。找个真能听你说话的人，或者去学校心理中心聊一次，那不算丢人。' }
+  ]
+};
+var idx = -1, ans = [], total = 0, curBand = null;
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;') }
+function render(){
+  var s = document.getElementById('screen');
+  if (idx < 0) s.innerHTML = introHTML();
+  else if (idx >= CFG.qs.length) {
+    s.innerHTML = resultHTML();
+    requestAnimationFrame(function(){
+      var el = document.getElementById('pbfill'); if (el) el.style.width = (curBand ? curBand.pct : 0) + '%';
+      drawAvatar();
+    });
+  }
+  else s.innerHTML = qHTML();
+  window.scrollTo(0, 0);
+}
+function introHTML(){
+  return '<div class="tagline">' + CFG.en + ' · 趣味自测</div>'
+    + '<h1>' + CFG.title + '</h1>'
+    + '<p class="lead">' + CFG.lead + '</p>'
+    + '<div class="metas">' + CFG.meta.map(function(m){ return '<span class="meta">' + m + '</span>' }).join('') + '</div>'
+    + '<div class="steps">'
+    + '  <div class="st"><b>01</b><span>凭直觉，选 18 个真实瞬间</span></div>'
+    + '  <div class="st"><b>02</b><span>看你停在第几级，以及为什么</span></div>'
+    + '  <div class="st"><b>03</b><span>保存结果卡，附一张你的等级人像</span></div>'
+    + '</div>'
+    + '<div class="spacer"></div>'
+    + '<button class="btn" onclick="start()">开始测试</button>'
+    + '<p class="foot">凭直觉选，别挑「应该选的」那个。<br/>结果仅供娱乐与自我观察，不构成心理诊断。</p>';
+}
+function qHTML(){
+  var q = CFG.qs[idx];
+  var pct = Math.round(idx / CFG.qs.length * 100);
+  var opts = q[2].map(function(o, i){
+    var L = ['A','B','C','D'][i];
+    var sel = ans[idx] === o[1] ? ' sel' : '';
+    return '<button class="opt' + sel + '" onclick="pick(' + o[1] + ',this)"><em>' + L + '</em><span>' + esc(o[0]) + '</span></button>';
+  }).join('');
+  return '<div class="bar"><i style="width:' + pct + '%"></i></div>'
+    + '<div class="qtop"><span>QUESTION</span><b>' + (idx + 1 < 10 ? '0' : '') + (idx + 1) + ' / ' + CFG.qs.length + '</b></div>'
+    + '<div class="qi">' + q[0] + '</div>'
+    + '<div class="q">' + esc(q[1]) + '</div>'
+    + '<div class="opts">' + opts + '</div>'
+    + (idx > 0 ? '<button class="back" onclick="prev()">← 上一题</button>' : '<div style="height:16px"></div>');
+}
+function getBand(){
+  var sum = 0;
+  for (var i = 0; i < CFG.qs.length; i++) sum += (ans[i] || 1);
+  total = sum;
+  for (var j = 0; j < CFG.bands.length; j++) { if (sum >= CFG.bands[j].min && sum <= CFG.bands[j].max) { curBand = CFG.bands[j]; return curBand; } }
+  curBand = CFG.bands[CFG.bands.length - 1];
+  return curBand;
+}
+function ladderHTML(col){
+  var out = '<div class="ladder" style="color:' + col + '">';
+  for (var i = 1; i <= 5; i++) out += '<i class="' + (i <= curBand.lv ? 'on' : '') + '"></i>';
+  return out + '</div>';
+}
+function resultHTML(){
+  var b = getBand();
+  var bg = 'radial-gradient(130% 90% at 88% -10%,' + hexA(b.color, .22) + ',' + hexA(b.color, 0) + ' 58%),linear-gradient(165deg,#151519,#0a0a0d)';
+  return '<div style="height:8px"></div>'
+    + '<div class="card" style="--accent:' + b.color + ';color:' + b.color + ';background:' + bg + '">'
+    + '  <div class="cardh"><span>' + CFG.en + ' · ' + CFG.no + '</span><span>LV ' + b.lv + ' / 5</span></div>'
+    + '  ' + ladderHTML(b.color)
+    + '  <div class="lvrow"><span class="lvtag" style="color:' + b.color + ';border-color:' + hexA(b.color, .42) + ';background:' + hexA(b.color, .1) + '">LEVEL 0' + b.lv + '</span>'
+    + '    <span class="big" style="color:' + b.color + '">' + b.pct + '%</span><span style="font-size:12px;color:rgba(244,244,247,.5);letter-spacing:1px">' + CFG.unit + '</span></div>'
+    + '  <div class="avwrap"><canvas id="av"></canvas></div>'
+    + '  <div class="name" style="color:#fff">' + b.name + '</div>'
+    + '  <div class="quote">「' + b.quote + '」</div>'
+    + '  <div class="tags">' + b.tags.map(function(t){ return '<span class="tag" style="color:' + b.color + '">' + t + '</span>' }).join('') + '</div>'
+    + '  <div class="sec">你大概率是这样的</div>'
+    + '  ' + b.feat.map(function(f, i){ return '<div class="li"><i>0' + (i + 1) + '</i><span>' + f + '</span></div>' }).join('')
+    + '  <div class="sec">被说中的地方</div>'
+    + '  <div class="note" style="border-color:' + hexA(b.color, .45) + ';color:rgba(244,244,247,.86)"><b style="color:' + b.color + '">隐藏优势：</b>' + b.good + '<br/><br/><b style="color:' + b.color + '">温柔一刀：</b>' + b.twist + '</div>'
+    + '</div>'
+    + '<button class="btn" style="background:' + b.color + '" onclick="saveCard()">保存结果卡（无水印）</button>'
+    + '<button class="btn ghost" onclick="copyShare()">复制分享文案</button>'
+    + '<button class="btn ghost" onclick="restart()">再测一次</button>'
+    + '<p class="foot">' + b.name + ' · 本结果由你的 ' + CFG.qs.length + ' 个选择生成，仅供娱乐。</p>';
+}
+function start(){ ans = []; idx = 0; render(); }
+function prev(){ if (idx > 0) { idx--; render(); } }
+function pick(v, el){
+  ans[idx] = v;
+  var els = document.querySelectorAll('.opt');
+  for (var i = 0; i < els.length; i++) els[i].classList.remove('sel');
+  el.classList.add('sel');
+  setTimeout(function(){
+    if (idx < CFG.qs.length - 1) { idx++; render(); }
+    else { idx = CFG.qs.length; render(); }
+  }, 300);
+}
+function restart(){ idx = -1; ans = []; total = 0; curBand = null; render(); }
+function hexA(hex, a){
+  var h = hex.replace('#','');
+  var r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+}
+function rr(x, a, b, w, h, r){
+  x.beginPath(); x.moveTo(a + r, b);
+  x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r);
+  x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r);
+  x.closePath();
+}
+/* ---- 等级人像：同一套绘制逻辑，页面与卡片共用 ---- */
+function drawGuy(x, cx, cy, s, lv, col){
+  var R = s * 0.155,                                       // 头半径
+      hy = cy - s * 0.235,                                  // 头心 y
+      bw = s * 0.20, bh = s * 0.34, by = hy + R * 0.95;     // 身体
+  var lw = Math.max(1.4, s * 0.0115);
+  x.save();
+  x.lineCap = 'round';
+  x.lineJoin = 'round';
+
+  // 身体
+  x.beginPath();
+  x.moveTo(cx - bw * 1.30, by + bh);
+  x.quadraticCurveTo(cx - bw * 1.10, by + bh * 0.34, cx - bw * 0.66, by);
+  x.lineTo(cx + bw * 0.66, by);
+  x.quadraticCurveTo(cx + bw * 1.10, by + bh * 0.34, cx + bw * 1.30, by + bh);
+  x.closePath();
+  x.fillStyle = hexA(col, .10); x.fill();
+  x.strokeStyle = hexA(col, .48); x.lineWidth = lw; x.stroke();
+
+  // 手臂
+  x.strokeStyle = hexA(col, .42);
+  x.lineWidth = lw;
+  x.beginPath(); x.moveTo(cx - bw * 0.92, by + bh * 0.16); x.lineTo(cx - bw * 1.60, by + bh * 0.74); x.stroke();
+  x.beginPath(); x.moveTo(cx + bw * 0.92, by + bh * 0.16); x.lineTo(cx + bw * 1.60, by + bh * 0.74); x.stroke();
+
+  // 脖子
+  x.beginPath(); x.moveTo(cx - R * 0.22, hy + R * 0.86); x.lineTo(cx - R * 0.20, by + 1); x.stroke();
+  x.beginPath(); x.moveTo(cx + R * 0.22, hy + R * 0.86); x.lineTo(cx + R * 0.20, by + 1); x.stroke();
+
+  // 头：按等级变形
+  x.fillStyle = hexA(col, .13);
+  x.strokeStyle = hexA(col, .72);
+  x.lineWidth = lw;
+  if (lv <= 3) {
+    x.beginPath(); x.arc(cx, hy, R, 0, Math.PI * 2); x.fill(); x.stroke();
+  } else if (lv === 4) {
+    x.beginPath(); x.arc(cx, hy, R, -Math.PI * 0.92, Math.PI * 0.86); x.fill(); x.stroke();
+    x.strokeStyle = hexA(col, .30);
+    x.beginPath(); x.moveTo(cx - R * 0.06, hy - R * 0.99); x.lineTo(cx - R * 0.02, hy - R * 0.52); x.stroke();
+  } else {
+    x.beginPath(); x.arc(cx, hy - s * 0.035, R, -Math.PI * 0.98, -Math.PI * 0.02); x.fill(); x.stroke();
+    x.beginPath(); x.arc(cx, hy + s * 0.055, R * 0.94, Math.PI * 0.02, Math.PI * 0.98); x.fill(); x.stroke();
+    x.strokeStyle = hexA(col, .22);
+    x.beginPath(); x.moveTo(cx - R * 0.7, hy - s * 0.02); x.lineTo(cx + R * 0.7, hy - s * 0.02); x.stroke();
+  }
+
+  // 眼睛
+  var ex = R * 0.40, ey = hy - R * 0.10, er = R * 0.11;
+  x.fillStyle = '#fff';
+  if (lv === 1) {
+    x.beginPath(); x.arc(cx - ex, ey, er, 0, Math.PI * 2); x.fill();
+    x.beginPath(); x.arc(cx + ex, ey, er, 0, Math.PI * 2); x.fill();
+  } else if (lv === 2) {
+    x.beginPath(); x.arc(cx - ex, ey + er * 0.4, er * 1.20, 0, Math.PI * 2); x.fill();
+    x.beginPath(); x.arc(cx + ex, ey - er * 0.3, er * 0.78, 0, Math.PI * 2); x.fill();
+  } else if (lv === 3) {
+    for (var side = -1; side <= 1; side += 2) {
+      var ox = cx + side * ex;
+      x.beginPath();
+      for (var t = 0; t < 46; t++) {
+        var a = t * 0.32, r = er * (1.9 - t * 0.032);
+        var px = ox + Math.cos(a) * r, py = ey + Math.sin(a) * r;
+        if (t === 0) x.moveTo(px, py); else x.lineTo(px, py);
+      }
+      x.strokeStyle = '#fff'; x.lineWidth = Math.max(1.2, s * 0.008); x.stroke();
+    }
+  } else if (lv === 4) {
+    x.strokeStyle = '#fff'; x.lineWidth = Math.max(1.6, s * 0.0105);
+    for (var sgn = -1; sgn <= 1; sgn += 2) {
+      var ax = cx + sgn * ex;
+      x.beginPath(); x.moveTo(ax - er * 1.25, ey - er); x.lineTo(ax + er * 1.25, ey + er); x.stroke();
+      x.beginPath(); x.moveTo(ax + er * 1.25, ey - er); x.lineTo(ax - er * 1.25, ey + er); x.stroke();
+    }
+  } else {
+    x.beginPath(); x.arc(cx - ex, ey, er * 1.35, 0, Math.PI * 2); x.fill();
+    x.beginPath(); x.arc(cx + ex, ey, er * 1.35, 0, Math.PI * 2); x.fill();
+    x.fillStyle = 'rgba(0,0,0,.85)';
+    x.beginPath(); x.arc(cx - ex, ey, er * 0.55, 0, Math.PI * 2); x.fill();
+    x.beginPath(); x.arc(cx + ex, ey, er * 0.55, 0, Math.PI * 2); x.fill();
+  }
+
+  // 嘴
+  var my = hy + R * 0.42, mw = R * 0.46;
+  x.strokeStyle = 'rgba(255,255,255,.85)';
+  x.lineWidth = Math.max(1.4, s * 0.0095);
+  if (lv === 1) {
+    x.beginPath(); x.arc(cx, my - R * 0.10, mw * 0.62, Math.PI * 0.15, Math.PI * 0.85); x.stroke();
+  } else if (lv === 2) {
+    x.beginPath(); x.moveTo(cx - mw * 0.5, my); x.lineTo(cx + mw * 0.5, my); x.stroke();
+  } else if (lv === 3) {
+    x.beginPath();
+    for (var k = 0; k <= 6; k++) {
+      var zx = cx - mw + (mw * 2) * (k / 6), zy = my + (k % 2 ? -R * 0.06 : R * 0.06);
+      if (k === 0) x.moveTo(zx, zy); else x.lineTo(zx, zy);
+    }
+    x.stroke();
+  } else if (lv === 4) {
+    x.beginPath();
+    for (var w = 0; w <= 24; w++) {
+      var wx = cx - mw + (mw * 2) * (w / 24), wy2 = my + Math.sin(w * 0.9) * R * 0.075;
+      if (w === 0) x.moveTo(wx, wy2); else x.lineTo(wx, wy2);
+    }
+    x.stroke();
+  }
+
+  // 头顶装饰
+  if (lv >= 2 && lv <= 3) {
+    x.strokeStyle = hexA(col, .85);
+    x.lineWidth = Math.max(1.2, s * 0.0085);
+    x.beginPath();
+    x.moveTo(cx - R * 0.22, hy - R * 0.96);
+    x.quadraticCurveTo(cx - R * 0.40, hy - R * 1.30, cx - R * 0.10, hy - R * 1.34);
+    x.stroke();
+  }
+  if (lv === 3) {
+    x.strokeStyle = hexA(col, .9);
+    x.beginPath();
+    x.moveTo(cx + R * 0.95, hy - R * 0.90);
+    x.lineTo(cx + R * 0.62, hy - R * 0.46);
+    x.lineTo(cx + R * 0.92, hy - R * 0.48);
+    x.lineTo(cx + R * 0.58, hy + R * 0.02);
+    x.stroke();
+  }
+  if (lv >= 4) {
+    x.fillStyle = hexA(col, .55);
+    var frag = [[-R * 1.62, R * 0.30, R * 0.13], [R * 1.58, -R * 0.30, R * 0.10], [R * 1.12, R * 1.02, R * 0.08]];
+    for (var f = 0; f < frag.length; f++) {
+      x.save();
+      x.translate(cx + frag[f][0], hy + frag[f][1]);
+      x.rotate(lv === 5 ? 0.6 : 0.25);
+      x.fillRect(-frag[f][2], -frag[f][2], frag[f][2] * 2, frag[f][2] * 2);
+      x.restore();
+    }
+  }
+  if (lv === 5) {
+    x.strokeStyle = hexA(col, .40);
+    x.lineWidth = Math.max(1.2, s * 0.008);
+    x.save();
+    x.translate(cx, hy); x.rotate(-0.22);
+    x.beginPath(); x.ellipse(0, 0, R * 1.62, R * 0.46, 0, 0, Math.PI * 2); x.stroke();
+    x.restore();
+    x.fillStyle = hexA(col, .38);
+    for (var d = 0; d < 6; d++) {
+      var ang = d * 1.05 + 0.4, dist = R * 1.75;
+      x.fillRect(cx + Math.cos(ang) * dist, hy + Math.sin(ang) * dist * 0.55, R * 0.055, R * 0.055);
+    }
+  }
+  x.restore();
+}
+function drawAvatar(){
+  var el = document.getElementById('av');
+  if (!el) return;
+  var size = 224, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  el.width = size * dpr; el.height = size * dpr;
+  el.style.width = size + 'px'; el.style.height = size + 'px';
+  var x = el.getContext('2d');
+  x.scale(dpr, dpr);
+  x.clearRect(0, 0, size, size);
+  var b = curBand || getBand();
+  drawGuy(x, size / 2, size * 0.52, size * 0.92, b.lv, b.color || CFG.accent);
+}
+function wrap(ctx, text, maxW){
+  var lines = [], line = '';
+  var noStart = '。，、」』！？：；）】…';
+  for (var i = 0; i < text.length; i++){
+    var ch = text[i];
+    if (ctx.measureText(line + ch).width > maxW && line){
+      if (noStart.indexOf(ch) > -1){ var extra = ch; while (i + 1 < text.length && noStart.indexOf(text[i + 1]) > -1){ extra += text[++i]; } lines.push(line + extra); line = ''; }
+      else { lines.push(line); line = ch; }
+    } else line += ch;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+function balance(ctx, text, maxW){
+  var noStart = '。，、」』！？：；）】…';
+  var marks = '，。、；：！？';
+  var best = null, bestDiff = 1e9, any = null, anyDiff = 1e9;
+  for (var c = 6; c < text.length - 4; c++){
+    if (noStart.indexOf(text[c]) > -1) continue;
+    var l1 = text.slice(0, c), l2 = text.slice(c);
+    var w1 = ctx.measureText(l1).width, w2 = ctx.measureText(l2).width;
+    if (w1 <= maxW && w2 <= maxW){
+      var d = Math.abs(w1 - w2);
+      if (d < anyDiff){ anyDiff = d; any = [l1, l2]; }
+      if (marks.indexOf(text[c - 1]) > -1 && d < bestDiff){ bestDiff = d; best = [l1, l2]; }
+    }
+  }
+  return best || any;
+}
+function drawCard(){
+  var b = getBand();
+  var col = b.color || CFG.accent;
+  var W = 1080, H = 1440;
+  var cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  var x = cv.getContext('2d');
+  var F = '"PingFang SC","Microsoft YaHei","Heiti SC",sans-serif';
+
+  var g = x.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#0e0e12'); g.addColorStop(.5, '#131317'); g.addColorStop(1, '#07070a');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+
+  var lg = x.createLinearGradient(90, 0, W - 90, 0);
+  lg.addColorStop(0, hexA(col, .60)); lg.addColorStop(.55, hexA(col, .14)); lg.addColorStop(1, hexA(col, 0));
+  x.fillStyle = lg; x.fillRect(90, 33, W - 180, 3);
+
+  x.strokeStyle = 'rgba(255,255,255,.10)'; x.lineWidth = 2;
+  rr(x, 34, 34, W - 68, H - 68, 34); x.stroke();
+
+  x.fillStyle = 'rgba(255,255,255,.32)';
+  x.font = '700 30px ' + F;
+  x.fillText(CFG.en + '   /   ' + CFG.no, 90, 132);
+
+  // 等级量表
+  var lx = 90, ly = 172, lw = 900, lgap = 8, segW = (lw - lgap * 4) / 5;
+  for (var i = 1; i <= 5; i++) {
+    var on = i <= b.lv;
+    x.fillStyle = on ? col : 'rgba(255,255,255,.10)';
+    rr(x, lx + (i - 1) * (segW + lgap), ly, segW, 12, 6); x.fill();
+  }
+
+  // 等级 + 百分比
+  x.fillStyle = col;
+  x.font = '800 34px ' + F;
+  x.fillText('LEVEL 0' + b.lv + ' / 5', 90, 252);
+  x.fillStyle = col;
+  x.font = '800 128px ' + F;
+  var num = b.pct + '%';
+  x.fillText(num, 86, 386);
+  var nw = x.measureText(num).width;
+  x.fillStyle = 'rgba(255,255,255,.45)';
+  x.font = '600 28px ' + F;
+  x.fillText(CFG.unit, 90 + nw + 30, 386);
+
+  // 人像
+  var rg = x.createRadialGradient(W / 2, 600, 0, W / 2, 600, 350);
+  rg.addColorStop(0, hexA(col, .11)); rg.addColorStop(1, hexA(col, 0));
+  x.fillStyle = rg; x.fillRect(160, 360, 760, 480);
+  drawGuy(x, W / 2, 612, 392, b.lv, col);
+
+  // 名字
+  x.fillStyle = '#fff';
+  x.font = '800 84px ' + F;
+  x.fillText(b.name, 88, 856);
+
+  // 金句
+  x.fillStyle = 'rgba(255,255,255,.78)';
+  var qText = '「' + b.quote + '」';
+  var qfs = 40, qLines = null, qlh = 64;
+  while (qfs >= 28) {
+    x.font = '500 ' + qfs + 'px ' + F;
+    qLines = balance(x, qText, 880);
+    if (qLines) { qlh = Math.round(qfs * 1.6); break; }
+    qfs -= 2;
+  }
+  if (!qLines) { x.font = '500 32px ' + F; qLines = wrap(x, qText, 880); qlh = 52; }
+  var qy = 930;
+  for (var m = 0; m < qLines.length; m++) { x.fillText(qLines[m], 90, qy); qy += qlh; }
+
+  // 标签
+  var py = qy + 20;
+  x.font = '600 28px ' + F;
+  var px = 90;
+  for (var j = 0; j < b.tags.length; j++) {
+    var t = b.tags[j];
+    var tw = x.measureText(t).width + 52;
+    rr(x, px, py, tw, 60, 30);
+    x.fillStyle = hexA(col, .10); x.fill();
+    x.strokeStyle = hexA(col, .40); x.lineWidth = 2; x.stroke();
+    x.fillStyle = col;
+    x.fillText(t, px + 26, py + 41);
+    px += tw + 16;
+  }
+
+  // 两条特征
+  var fy = py + 60 + 54;
+  x.fillStyle = 'rgba(255,255,255,.13)';
+  x.fillRect(90, fy - 38, 900, 1);
+  x.fillStyle = 'rgba(255,255,255,.66)';
+  x.font = '500 30px ' + F;
+  var picks = [b.feat[0], b.feat[1]];
+  for (var k = 0; k < picks.length; k++) {
+    var fl = wrap(x, picks[k], 880);
+    var oneLine = fl[0];
+    if (fl.length > 1) oneLine = fl[0].slice(0, -1) + '…';
+    x.fillText(oneLine, 90, fy);
+    fy += 60;
+  }
+
+  x.fillStyle = 'rgba(255,255,255,.30)';
+  x.font = '600 28px ' + F;
+  x.fillText(CFG.brand.name + '  ·  ' + CFG.brand.slogan, 90, H - 132);
+  x.fillStyle = 'rgba(255,255,255,.18)';
+  x.font = '500 24px ' + F;
+  x.fillText('结果仅供娱乐 · 不构成心理诊断', 90, H - 70);
+  return cv.toDataURL('image/png');
+}
+function saveCard(){
+  var url = drawCard();
+  document.getElementById('ovimg').src = url;
+  document.getElementById('ov').classList.add('on');
+}
+function closeOv(){ document.getElementById('ov').classList.remove('on'); }
+function copyShare(){
+  var b = getBand();
+  var txt = '我测出来是「' + b.name + '」· LV0' + b.lv + '——' + b.quote + '\n你也来试试：' + location.href;
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ alert('已复制，去粘贴吧'); }, function(){ fallbackCopy(txt); });
+  } else fallbackCopy(txt);
+}
+function fallbackCopy(txt){
+  var ta = document.createElement('textarea');
+  ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); alert('已复制，去粘贴吧'); } catch(e){ alert(txt); }
+  document.body.removeChild(ta);
+}
+document.getElementById('brand').textContent = CFG.brand.name;
+document.getElementById('brandSub').textContent = CFG.brand.slogan;
+render();
+</script>
+</body>
+</html>
